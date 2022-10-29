@@ -66,16 +66,15 @@ class Ball(object):
 
         # initiate seed
         random.seed = None
-        random.jumpahead(freq_model+freq_pub)
 
         # parameters: walls
         try:
             self.walls = rospy.get_param('/walls')
             playing_robots = rospy.get_param('PLAYING_ROBOTS')
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logerr('Error in parameter server - %s', err)
             raise
-        except KeyError, err:
+        except KeyError as err:
             rospy.logerr('Value of %s not set', err)
             raise
 
@@ -159,7 +158,7 @@ class Ball(object):
 
         try:
             self.pub_gt_rviz.publish(self.msg_GT_rviz)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
     def run(self, flag):
@@ -280,7 +279,7 @@ class Ball(object):
                 self.pose['vx'] = new_vel[0]
                 self.pose['vy'] = new_vel[1]
 
-        except tf.Exception, err:
+        except tf.Exception as err:
             rospy.logwarn('TF Error - %s', err)
             return
 

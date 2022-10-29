@@ -127,7 +127,6 @@ class Robot(object):
         # initiate seed with current system time
         random.seed = None
         # jump ahead a number dependant on this robot
-        random.jumpahead(sum(ord(c) for c in name))
 
         # assertions for arguments
         assert isinstance(name, str)
@@ -147,10 +146,10 @@ class Robot(object):
             self.threshold_obs_landmark = rospy.get_param('~landmark_obs_threshold')
             self.threshold_obs_target = rospy.get_param('~target_obs_threshold')
             self.occlusions = rospy.get_param('~occlusions')
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logerr('Error in parameter server - %s', err)
             raise
-        except KeyError, err:
+        except KeyError as err:
             rospy.logerr('Value of %s not set', err)
             raise
 
@@ -291,7 +290,7 @@ class Robot(object):
         # publish the odometry in standard format
         try:
             self.pub_odometry.publish(self.msg_odometry)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
         # print as debug
@@ -378,10 +377,10 @@ class Robot(object):
             self.pose['y'] += msg.translation * math.sin(self.pose['theta'])
             self.pose['theta'] = normalize_angle(self.pose['theta'] + msg.rot2)
 
-        except TypeError, err:
+        except TypeError as err:
             rospy.logfatal('TypeError: reason - %s', err)
             raise
-        except KeyError, err:
+        except KeyError as err:
             rospy.logfatal('KeyError: variable %s doesnt exist', err)
             raise
 
@@ -408,7 +407,7 @@ class Robot(object):
 
         try:
             self.pub_gt_rviz.publish(self.msg_GT_rviz)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
         # besides the pose, let's publish a cylinder marker with the robot radius and its height
@@ -416,7 +415,7 @@ class Robot(object):
 
         try:
             self.pub_cylinder.publish(self.cylinder)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
     def generate_landmark_observations(self, event):
@@ -438,7 +437,7 @@ class Robot(object):
             # Calc. the observation in the local frame
             try:
                 lm_point_local = self.listener.transformPoint(self.frame, lm_point)
-            except tf.Exception, err:
+            except tf.Exception as err:
                 rospy.logwarn('TF Error - %s', err)
                 return
 
@@ -485,7 +484,7 @@ class Robot(object):
 
         try:
             self.pub_landmark_observations.publish(markers)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
     def generate_target_observation(self, event):
@@ -500,7 +499,7 @@ class Robot(object):
         # Calc. the observation in the local frame
         try:
             target_local = self.listener.transformPoint(self.frame, self.target_pose)
-        except tf.Exception, err:
+        except tf.Exception as err:
             rospy.logdebug('TF Error - %s', err)
             return
 
@@ -560,7 +559,7 @@ class Robot(object):
 
         try:
             self.pub_target_observation.publish(marker)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
     def generate_robot_observations(self, event):
@@ -611,7 +610,7 @@ class Robot(object):
 
         try:
             self.pub_robot_observations.publish(markers)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
         
 
@@ -621,7 +620,7 @@ class Robot(object):
             # find latest time for transformation
             msg.header.stamp = self.listener.getLatestCommonTime(self.frame, msg.header.frame_id)
             new_pose = self.listener.transformPose(self.frame, msg)
-        except tf.Exception, err:
+        except tf.Exception as err:
             rospy.logdebug("TF Exception when transforming other robots - %s", err)
             return
 

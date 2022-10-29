@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<launch>
+  <param name="use_sim_time" value="false"/>
+  <rosparam param="PLAYING_ROBOTS">[1, 1, 1]</rosparam>
+  <include file="$(find randgen_omni_dataset)/launch/world.launch"/>
+  <node name="ball" pkg="randgen_omni_dataset" type="ball" output="screen">
+    <rosparam param="initial_pose">{'x': 0.056096735209279824, 'y': -1.9498996015153525, 'z': 1.4120858382806216}</rosparam>
+    <param name="freq_pub" value="100"/>
+  </node>
+  <node name="omni1" pkg="randgen_omni_dataset" type="robot" output="screen">
+    <rosparam param="initial_pose">{'x': 0.33367995932747685, 'y': -3.380100126671739, 'theta': 1.9881937922270518}</rosparam>
+    <param name="radius" value="0.5"/>
+    <param name="height" value="0.81"/>
+    <rosparam param="alphas">[0.015, 0.1, 0.5, 0.001]</rosparam>
+    <param name="landmark_collision" value="True"/>
+    <param name="landmark_obs_threshold" value="3.5"/>
+    <param name="target_obs_threshold" value="3.5"/>
+    <param name="occlusions" value="True"/>
+  </node>
+  <node name="omni1_odometry" pkg="randgen_omni_dataset" type="odometry" output="screen">
+    <param name="topic" value="/omni1/genOdometry"/>
+  </node>
+  <node name="omni2" pkg="randgen_omni_dataset" type="robot" output="screen">
+    <rosparam param="initial_pose">{'x': 6.198694067211535, 'y': -1.4491649087675027, 'theta': 2.779819460305169}</rosparam>
+    <param name="radius" value="0.5"/>
+    <param name="height" value="0.81"/>
+    <rosparam param="alphas">[0.015, 0.1, 0.5, 0.001]</rosparam>
+    <param name="landmark_collision" value="True"/>
+    <param name="landmark_obs_threshold" value="3.5"/>
+    <param name="target_obs_threshold" value="3.5"/>
+    <param name="occlusions" value="True"/>
+  </node>
+  <node name="omni2_odometry" pkg="randgen_omni_dataset" type="odometry" output="screen">
+    <param name="topic" value="/omni2/genOdometry"/>
+  </node>
+  <node name="omni3" pkg="randgen_omni_dataset" type="robot" output="screen">
+    <rosparam param="initial_pose">{'x': 2.1530377366005062, 'y': 1.2295003333686871, 'theta': 2.1898114556081234}</rosparam>
+    <param name="radius" value="0.5"/>
+    <param name="height" value="0.81"/>
+    <rosparam param="alphas">[0.015, 0.1, 0.5, 0.001]</rosparam>
+    <param name="landmark_collision" value="True"/>
+    <param name="landmark_obs_threshold" value="3.5"/>
+    <param name="target_obs_threshold" value="3.5"/>
+    <param name="occlusions" value="True"/>
+  </node>
+  <node name="omni3_odometry" pkg="randgen_omni_dataset" type="odometry" output="screen">
+    <param name="topic" value="/omni3/genOdometry"/>
+  </node>
+  <node name="omni_custom_msg" pkg="randgen_omni_dataset" type="omni_custom" output="screen"/>
+  <node pkg="rosbag" name="record_dataset" type="record" required="true" args="--all --duration=300 --output-name=/home/$(optenv USER gsl)/datasets/omni_sim/omni_simulated.bag"/>
+</launch>

@@ -35,10 +35,10 @@ class Landmarks:
         assert(isinstance(topic, str))
         try:
             lm_list = rospy.get_param(param)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logerr('Error in parameter server - %s', err)
             raise
-        except KeyError, err:
+        except KeyError as err:
             rospy.logerr('Value of %s not set', err)
             raise
 

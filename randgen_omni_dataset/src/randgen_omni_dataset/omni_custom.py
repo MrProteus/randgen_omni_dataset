@@ -24,10 +24,10 @@ class OmniCustom():
         # figure out information on existing robots
         try:
             playing_robots = rospy.get_param('PLAYING_ROBOTS')
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logerr('Error in parameter server - %s', err)
             raise
-        except KeyError, err:
+        except KeyError as err:
             rospy.logerr('Value of %s not set', err)
             raise
 
@@ -110,7 +110,7 @@ class OmniCustom():
             # find latest time for transformation
             msg.header.stamp = self.listener.getLatestCommonTime(GLOBAL_FRAME, msg.header.frame_id)
             new_pose = self.listener.transformPose(GLOBAL_FRAME, msg)
-        except tf.Exception, err:
+        except tf.Exception as err:
             rospy.logdebug("TF Exception when transforming other robots - %s", err)
             return
 
@@ -121,7 +121,7 @@ class OmniCustom():
         if self.numberRobots == sum(found is True for found in self.gt.foundOMNI):
             try:
                 self.publisher_gt.publish(self.gt)
-            except rospy.ROSException, err:
+            except rospy.ROSException as err:
                 rospy.logdebug('ROSException - %s', err)
 
     def target_pose_callback(self, msg):
@@ -137,7 +137,7 @@ class OmniCustom():
         # publish this message
         try:
             self.publisher_gt.publish(self.gt)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
     def landmarks_callback(self, msg, list_id):
@@ -167,7 +167,7 @@ class OmniCustom():
         # publish with updated information
         try:
             self.publishers_lm[list_id].publish(lm_msg)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
 
     def target_callback(self, msg, list_id):
@@ -193,7 +193,7 @@ class OmniCustom():
         # publish with updated information
         try:
             self.publishers_target[list_id].publish(ball_msg)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)
             
     def robot_observations_callback(self, msg, list_id):
@@ -219,5 +219,5 @@ class OmniCustom():
         # Publish
         try:
             self.publishers_robs[list_id].publish(robs_msg)
-        except rospy.ROSException, err:
+        except rospy.ROSException as err:
             rospy.logdebug('ROSException - %s', err)

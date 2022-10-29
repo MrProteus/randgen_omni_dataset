@@ -101,8 +101,8 @@ if __name__ == '__main__':
 
     rospy.init_node('config_file_create')
     if not rospy.has_param(args.landmarks_param):
-        print 'Please load landmark configuration into ' + args.landmarks_param + 'parameter first'
-        print 'rosparam load config/landmarks.yaml'
+        print('Please load landmark configuration into ' + args.landmarks_param + 'parameter first')
+        print('rosparam load config/landmarks.yaml')
         sys.exit(0)
 
     landmarks = rospy.get_param(args.landmarks_param)
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     # create robots
     robot_list = []
     for n in range(1, args.N+1):
-        print 'Creating robot %d' % n
+        print('Creating robot %d' % n)
 
         robot = Robot(n, random.uniform(args.left, args.right), random.uniform(args.down, args.up),
                       random.uniform(*THETA_RANGE), args.radius)
@@ -119,29 +119,29 @@ if __name__ == '__main__':
         while True:
             tries += 1
             if tries > 10000:
-                print 'Max tries of 10000 reached, no success with this configuration'
+                print('Max tries of 10000 reached, no success with this configuration')
                 sys.exit(0)
 
             col_robots = robot.check_collisions(robot_list)
-            if col_robots is not -1:
-                print 'Try #%d - detected collision with robot %d at {%f , %f}' % (
-                    tries, col_robots, robot_list[col_robots - 1].x, robot_list[col_robots - 1].y)
+            if col_robots != -1:
+                print('Try #%d - detected collision with robot %d at {%f , %f}' % (
+                    tries, col_robots, robot_list[col_robots - 1].x, robot_list[col_robots - 1].y))
 
             col_landmarks = robot.check_collisions_landmarks(landmarks)
-            if col_landmarks is not -1:
-                print 'Try #%d - detected collision with landmark %d at {%f , %f}' % (
-                    tries, col_landmarks, landmarks[col_landmarks][0], landmarks[col_landmarks][1])
+            if col_landmarks != -1:
+                print('Try #%d - detected collision with landmark %d at {%f , %f}' % (
+                    tries, col_landmarks, landmarks[col_landmarks][0], landmarks[col_landmarks][1]))
 
-            if col_robots is -1 and col_landmarks is -1:
+            if col_robots == -1 and col_landmarks == -1:
                 break
 
             robot.x = random.uniform(args.left, args.right)
             robot.y = random.uniform(args.down, args.up)
-            print 'Trying position {%f, %f}' % (robot.x, robot.y)
+            print('Trying position {%f, %f}' % (robot.x, robot.y))
 
         # no longer colliding, insert into list and print location
         robot_list.append(robot)
-        print 'Robot %d created at {%f,%f,%f}' % (n, robot.x, robot.y, robot.theta)
+        print('Robot %d created at {%f,%f,%f}' % (n, robot.x, robot.y, robot.theta))
 
     # robots have been assigned positions
     # generate a ball anywhere (x, y, z)
@@ -277,7 +277,7 @@ if __name__ == '__main__':
     try:
         path = rospack.get_path('pfuclt_omni_dataset')
     except rospkg.ResourceNotFound:
-        print 'Didnt find pfuclt package, so the launch file was not generated for it. However you can still generate the data'
+        print('Didnt find pfuclt package, so the launch file was not generated for it. However you can still generate the data')
         sys.exit(0)
     path += '/launch/' + args.file
 
