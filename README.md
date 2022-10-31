@@ -1,5 +1,7 @@
 # randgen\_omni\_dataset
 
+had to edit /usr/include/c++/9/bits/refwrap.h and comment out `ref` (ll.349-353) so that the same function in the boost library is not overloaded
+
 This ROS package generates random datasets in a simulation environment, for multiple robots and targets with random motion. Currently, it is designed to work with the OMNI dataset, but can be adapted to different configurations.
 
 ## Brief Description
