@@ -4,11 +4,11 @@
   <rosparam param="PLAYING_ROBOTS">[1]</rosparam>
   <include file="$(find randgen_omni_dataset)/launch/world.launch"/>
   <node name="ball" pkg="randgen_omni_dataset" type="ball" output="screen">
-    <rosparam param="initial_pose">{'x': 5.781477374919562, 'y': -2.02470759833967, 'z': 1.5246100813899537}</rosparam>
+    <rosparam param="initial_pose">{'x': 5.038205722208004, 'y': -2.702981494588499, 'z': 1.4460915236365355}</rosparam>
     <param name="freq_pub" value="100"/>
   </node>
   <node name="omni1" pkg="randgen_omni_dataset" type="robot" output="screen">
-    <rosparam param="initial_pose">{'x': 4.92127393067666, 'y': -2.1573843429859787, 'theta': -0.674671993798972}</rosparam>
+    <rosparam param="initial_pose">{'x': 2.2789041318013243, 'y': 1.3607741319422875, 'theta': -1.8513808843781636}</rosparam>
     <param name="radius" value="0.5"/>
     <param name="height" value="0.81"/>
     <rosparam param="alphas">[0.015, 0.1, 0.5, 0.001]</rosparam>
@@ -21,5 +21,5 @@
     <param name="topic" value="/omni1/genOdometry"/>
   </node>
   <node name="omni_custom_msg" pkg="randgen_omni_dataset" type="omni_custom" output="screen"/>
-  <node pkg="rosbag" name="record_dataset" type="record" required="true" args="--all --duration=300 --output-name=/home/$(optenv USER gsl)/datasets/omni_sim/omni_simulated.bag"/>
+  <node pkg="rosbag" name="record_dataset" type="record" required="true" args="--all --duration=300 --output-name=/home/$(optenv USER gsl)/datasets/omni_sim/omni_simulated_1.bag"/>
 </launch>
